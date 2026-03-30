@@ -948,7 +948,7 @@
     },
     "cache_file": {
       "enabled": true,
-      "store_fakeip": true,
+      "store_fakeip": false,
       "store_rdrc": true,
       "path": "cache.db",
       "cache_id": "sing-box"
