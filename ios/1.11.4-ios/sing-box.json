@@ -36,6 +36,10 @@
     ],
     "rules": [
       {
+        "outbound": "any",
+        "server": "dns_direct"
+      },
+      {
         "rule_set": [
           "217-ads-all",
           "cn-ads",
