@@ -52,6 +52,11 @@
       {
         "clash_mode": "Global",
         "server": "dns_proxy"
+      },
+      {
+        "query_type": "HTTPS",
+        "server": "dns_block",
+        "disable_cache": true
       }
     ],
     "final": "dns_proxy",
