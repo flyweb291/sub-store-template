@@ -186,6 +186,16 @@
         "outbound": "🎮 游戏平台"
       },
       {
+        "rule_set": "emby_domain",
+        "action": "route",
+        "outbound": "📺 Emby"
+      },
+      {
+        "protocol": "bittorrent",
+        "action": "route",
+        "outbound": "📋 BT下载"
+      },
+      {
         "rule_set": "microsoft_domain",
         "action": "route",
         "outbound": "🪟 微软服务"
@@ -261,6 +271,13 @@
         "type": "remote",
         "format": "binary",
         "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/douyin.srs",
+        "download_detour": "🎯 本地直连"
+      },
+      {
+        "tag": "emby_domain",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/category-emby.srs",
         "download_detour": "🎯 本地直连"
       },
       {
@@ -643,6 +660,59 @@
       "default": "🎯 本地直连"
     },
     {
+      "tag": "📦 订阅下载",
+      "type": "selector",
+      "outbounds": [
+        "🎯 本地直连",
+        "🚀 节点选择"
+      ],
+      "default": "🎯 本地直连"
+    },
+    {
+      "tag": "📺 Emby",
+      "type": "selector",
+      "outbounds": [
+        "🚀 节点选择",
+        "♻️ 自动选择",
+        "👉 手动选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇯🇵 日本节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇺🇸 美国节点",
+        "🏴️ 其他节点",
+        "🎯 本地直连"
+      ],
+      "default": "🚀 节点选择"
+    },
+    {
+      "tag": "📋 BT下载",
+      "type": "selector",
+      "outbounds": [
+        "🎯 本地直连",
+        "🚀 节点选择"
+      ],
+      "default": "🎯 本地直连"
+    },
+    {
+      "tag": "🎮 国内游戏",
+      "type": "selector",
+      "outbounds": [
+        "🎯 本地直连",
+        "🚀 节点选择",
+        "♻️ 自动选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇯🇵 日本节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇺🇸 美国节点",
+        "🏴️ 其他节点"
+      ],
+      "default": "🎯 本地直连"
+    },
+    {
       "tag": "🀄️ 国内连接",
       "type": "selector",
       "outbounds": [
@@ -745,12 +815,20 @@
       "external_controller": "127.0.0.1:9090",
       "external_ui": "ui",
       "external_ui_download_url": "https://ghfast.top/https://github.com/Zephyruso/zashboard/archive/gh-pages-no-fonts.zip",
-      "external_ui_download_detour": "🎯 本地直连",
-      "secret": ""
+      "external_ui_download_detour": "📦 订阅下载",
+      "secret": "",
+      "default_mode": "rule",
+      "access_control_allow_origin": [
+        "*"
+      ],
+      "access_control_allow_private_network": true
     },
     "cache_file": {
       "enabled": true,
-      "store_fakeip": true
+      "store_fakeip": true,
+      "store_rdrc": true,
+      "path": "cache.db",
+      "cache_id": "sing-box"
     }
   }
 }
