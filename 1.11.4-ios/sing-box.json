@@ -746,8 +746,7 @@
       "external_ui": "ui",
       "external_ui_download_url": "https://ghfast.top/https://github.com/Zephyruso/zashboard/archive/gh-pages-no-fonts.zip",
       "external_ui_download_detour": "🎯 本地直连",
-      "secret": "",
-      "default_mode": "rule"
+      "secret": ""
     },
     "cache_file": {
       "enabled": true,
