@@ -23,6 +23,10 @@
       {
         "tag": "dns_block",
         "address": "rcode://success"
+      },
+      {
+        "tag": "dns_nxdomain",
+        "address": "rcode://name_error"
       }
     ],
     "rules": [
@@ -40,6 +44,38 @@
         "disable_cache": true
       },
       {
+        "query_type": [
+          "SRV",
+          "HTTPS"
+        ],
+        "server": "dns_nxdomain",
+        "disable_cache": true
+      },
+      {
+        "domain_regex": "^(\\d{1,3}\\.){3}\\d{1,3}$",
+        "server": "dns_nxdomain",
+        "disable_cache": true
+      },
+      {
+        "query_type": "AAAA",
+        "rule_set": [
+          "cn-direct",
+          "cn_domain",
+          "private_domain",
+          "bilibili_domain",
+          "douyin_domain"
+        ],
+        "server": "dns_nxdomain",
+        "disable_cache": true
+      },
+      {
+        "domain_keyword": [
+          "ntp",
+          "time"
+        ],
+        "server": "dns_direct"
+      },
+      {
         "rule_set": [
           "cn-direct",
           "cn_domain",
@@ -50,17 +86,20 @@
         "server": "dns_direct"
       },
       {
+        "domain": "services.googleapis.cn",
+        "server": "dns_proxy"
+      },
+      {
+        "domain_regex": "^((alt\\d+-)?mtalk\\.google\\.com|mobile-gtalk\\.l\\.google\\.com)$",
+        "server": "dns_proxy"
+      },
+      {
         "clash_mode": "Direct",
         "server": "dns_direct"
       },
       {
         "clash_mode": "Global",
         "server": "dns_proxy"
-      },
-      {
-        "query_type": "HTTPS",
-        "server": "dns_block",
-        "disable_cache": true
       },
       {
         "query_type": [
@@ -73,6 +112,7 @@
     ],
     "final": "dns_proxy",
     "strategy": "prefer_ipv4",
+    "reverse_mapping": true,
     "independent_cache": true,
     "fakeip": {
       "enabled": true,
