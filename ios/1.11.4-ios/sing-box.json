@@ -5,69 +5,75 @@
     "timestamp": true
   },
   "dns": {
-    "fakeip": {
-      "enabled": true,
-      "inet4_range": "198.18.0.0/15",
-      "inet6_range": "fc00::/18"
-    },
     "servers": [
       {
-        "tag": "google",
+        "tag": "dns_proxy",
         "address": "https://8.8.8.8/dns-query",
         "detour": "🚀 节点选择"
       },
       {
-        "tag": "ali",
+        "tag": "dns_direct",
         "address": "https://223.5.5.5/dns-query",
         "detour": "🎯 本地直连"
       },
       {
-        "tag": "fakeip",
+        "tag": "dns_fakeip",
         "address": "fakeip"
+      },
+      {
+        "tag": "dns_block",
+        "address": "rcode://success"
       }
     ],
     "rules": [
       {
         "outbound": "any",
-        "action": "route",
-        "server": "ali",
-        "disable_cache": true
-      },
-      {
-        "clash_mode": "Direct",
-        "action": "route",
-        "server": "ali"
-      },
-      {
-        "clash_mode": "Global",
-        "action": "route",
-        "server": "fakeip"
-      },
-      {
-        "query_type": "HTTPS",
-        "action": "reject"
+        "server": "dns_direct"
       },
       {
         "rule_set": [
-          "cn_domain",
-          "private_domain"
+          "217-ads-all",
+          "cn-ads",
+          "ads-Local"
         ],
-        "action": "route",
-        "server": "ali"
+        "server": "dns_block",
+        "disable_cache": true
+      },
+      {
+        "rule_set": [
+          "cn-direct",
+          "cn_domain",
+          "private_domain",
+          "bilibili_domain",
+          "douyin_domain"
+        ],
+        "server": "dns_direct"
+      },
+      {
+        "clash_mode": "Direct",
+        "server": "dns_direct"
+      },
+      {
+        "clash_mode": "Global",
+        "server": "dns_proxy"
       },
       {
         "query_type": [
           "A",
           "AAAA"
         ],
-        "action": "route",
-        "server": "fakeip",
+        "server": "dns_fakeip",
         "rewrite_ttl": 1
       }
     ],
-    "final": "google",
+    "final": "dns_proxy",
     "strategy": "prefer_ipv4",
-    "independent_cache": true
+    "independent_cache": true,
+    "fakeip": {
+      "enabled": true,
+      "inet4_range": "198.18.0.0/15",
+      "inet6_range": "fc00::/18"
+    }
   },
   "route": {
     "rules": [
@@ -225,6 +231,28 @@
     ],
     "rule_set": [
       {
+        "tag": "217-ads-all",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://ghfast.top/https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingboxlite.srs",
+        "download_detour": "🎯 本地直连"
+      },
+      {
+        "tag": "ads-Local",
+        "type": "inline",
+        "rules": [
+          {
+            "domain": [
+              "server.ethicalads.io",
+              "browser.sentry-cdn.com",
+              "affiliationjs.s3.amazonaws.com",
+              "ads.facebook.com",
+              "api.dou-plus.com"
+            ]
+          }
+        ]
+      },
+      {
         "tag": "ai_domain",
         "type": "remote",
         "format": "binary",
@@ -244,6 +272,127 @@
         "format": "binary",
         "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/bilibili.srs",
         "download_detour": "🎯 本地直连"
+      },
+      {
+        "tag": "cn-ads",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://ghfast.top/https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules-singbox.srs",
+        "download_detour": "🎯 本地直连"
+      },
+      {
+        "tag": "cn-direct",
+        "type": "inline",
+        "rules": [
+          {
+            "domain_suffix": [
+              "qq.com",
+              "weixin.com",
+              "wechat.com",
+              "qpic.cn",
+              "qlogo.cn",
+              "tencent.com",
+              "tencentcs.com",
+              "gtimg.cn",
+              "myqcloud.com",
+              "qcloud.com",
+              "weixinbridge.com",
+              "weiyun.com",
+              "googleapis.cn",
+              "kuaishou.com",
+              "kuaishouzt.com",
+              "ksapisrv.com",
+              "kspkg.com",
+              "yximgs.com",
+              "gifshow.com",
+              "ksimg.com",
+              "kwaicdn.com",
+              "kwai.com",
+              "ksniff.com",
+              "ks3.com",
+              "kuaishoupay.com",
+              "kwaicorp.com",
+              "netease.com",
+              "yeah.net",
+              "126.net",
+              "163.com",
+              "nie.163.com",
+              "g.163.com",
+              "game.163.com",
+              "mkey.163.com",
+              "igamecj.com",
+              "mihoyo.com",
+              "miyoushe.com",
+              "hoyoverse.com",
+              "bhsr.com",
+              "bh3.com",
+              "wanmei.com",
+              "37.com",
+              "4399.com",
+              "xd.com",
+              "taptap.com",
+              "tap.io",
+              "xinstall.io",
+              "snail.com",
+              "ztgame.com",
+              "sdo.com",
+              "shengqu.com",
+              "longtu.com",
+              "lilith.com",
+              "mobiusgames.cn",
+              "qinggame.cn",
+              "pwrd.com",
+              "xoyo.com",
+              "seasun.com",
+              "seasungames.com",
+              "changyou.com",
+              "duoyi.com",
+              "ourpalm.com",
+              "kunlun.com",
+              "linxi.com",
+              "boyaa.com",
+              "zlongame.com",
+              "giantinteractive.com",
+              "yoozoo.com",
+              "happyelements.cn",
+              "papegames.com",
+              "lilithgames.com",
+              "farlight.com",
+              "eyougame.com",
+              "hero.cn",
+              "hypergryph.com",
+              "torappu.com",
+              "taptap.cn",
+              "tapdb.net",
+              "tapimg.com",
+              "tapcdn.com",
+              "umeng.com",
+              "umengplus.com",
+              "cmge.com",
+              "snailgames.com",
+              "kaiyou.com",
+              "sgamemu.com",
+              "hypstar.com",
+              "byteoversea.com",
+              "ibyteimg.com",
+              "ibytedtos.com",
+              "snssdk.com",
+              "amemv.com",
+              "toutiaoimg.cn",
+              "toutiaostatic.com",
+              "zijieapi.com",
+              "byteeffectsignals.com",
+              "api.m.jd.com",
+              "jd.com",
+              "360buyimg.com",
+              "jd.cloud",
+              "jcloud.com",
+              "360buy.com",
+              "jdpay.com",
+              "vland.com"
+            ]
+          }
+        ]
       },
       {
         "tag": "cn_ip",
